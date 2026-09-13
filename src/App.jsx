@@ -42,6 +42,11 @@ import {
   duplicatePlan,
   renamePlan,
 } from "./workspace-plans.js";
+import { isSupabaseConfigured } from "./supabase.js";
+import {
+  loadRemoteWorkspace,
+  saveRemoteWorkspace,
+} from "./workspace-supabase.js";
 
 export const STORAGE_KEY = "wedding-table-planner:v1";
 export const WORKSPACE_VERSION = 1;
@@ -1341,7 +1346,17 @@ function Stats({ stats }) {
   );
 }
 
-function Header({ workspace, activePlan, stats, actions }) {
+function getSyncStatusLabel(syncStatus) {
+  return {
+    loading: "Connessione a Supabase…",
+    saving: "Salvataggio su Supabase…",
+    synced: "Salvato su Supabase",
+    error: "Supabase non raggiungibile · dati locali",
+    local: "Salvataggio locale",
+  }[syncStatus];
+}
+
+function Header({ workspace, activePlan, stats, actions, syncStatus }) {
   return (
     <header className="page-header">
       <BotanicalBranch />
@@ -1444,6 +1459,10 @@ function Header({ workspace, activePlan, stats, actions }) {
           </div>
         </div>
       </div>
+      <p className={`sync-status sync-${syncStatus}`} role="status">
+        <span aria-hidden="true" />
+        {getSyncStatusLabel(syncStatus)}
+      </p>
       <Stats stats={stats} />
     </header>
   );
@@ -1475,6 +1494,10 @@ export default function App() {
   );
   const [recoveryRequired, setRecoveryRequired] = useState(
     initialLoad.recoveryRequired,
+  );
+  const [remoteSyncEnabled, setRemoteSyncEnabled] = useState(false);
+  const [syncStatus, setSyncStatus] = useState(
+    isSupabaseConfigured ? "loading" : "local",
   );
   const [dialog, setDialog] = useState(null);
   const [activeGuestId, setActiveGuestId] = useState(null);
@@ -1512,6 +1535,66 @@ export default function App() {
       globalThis.localStorage?.setItem(STORAGE_KEY, JSON.stringify(workspace));
     }
   }, [workspace, recoveryRequired]);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured) return undefined;
+
+    let active = true;
+
+    async function hydrateWorkspace() {
+      try {
+        const { workspace: remoteWorkspace, error } =
+          await loadRemoteWorkspace();
+
+        if (!active) return;
+        if (error) throw error;
+
+        if (remoteWorkspace) {
+          const normalizedWorkspace = normalizeStoredWorkspace(remoteWorkspace);
+          if (!isValidWorkspace(normalizedWorkspace)) {
+            throw new Error("Il workspace remoto non è valido.");
+          }
+
+          dispatch({
+            type: "workspace/import-replace",
+            workspace: normalizedWorkspace,
+          });
+          setRecoveryRequired(false);
+        }
+
+        setRemoteSyncEnabled(true);
+      } catch (error) {
+        console.error("Impossibile caricare il workspace da Supabase", error);
+        setSyncStatus("error");
+      }
+    }
+
+    void hydrateWorkspace();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!remoteSyncEnabled) return undefined;
+
+    setSyncStatus("saving");
+    let active = true;
+    const timeoutId = globalThis.setTimeout(async () => {
+      try {
+        await saveRemoteWorkspace(workspace);
+        if (active) setSyncStatus("synced");
+      } catch (error) {
+        console.error("Impossibile salvare il workspace su Supabase", error);
+        if (active) setSyncStatus("error");
+      }
+    }, 350);
+
+    return () => {
+      active = false;
+      globalThis.clearTimeout(timeoutId);
+    };
+  }, [workspace, remoteSyncEnabled]);
 
   const closeDialog = () => setDialog(null);
   const moveGuest = (guestId, tableId) =>
@@ -1651,6 +1734,7 @@ export default function App() {
           activePlan={activePlan}
           stats={stats}
           actions={actions}
+          syncStatus={syncStatus}
         />
         <DndContext
           sensors={sensors}
@@ -1936,6 +2020,12 @@ h3 { font-size: 1.55rem; }
 .plan-select small { color: var(--sage); font-size: 0.62rem; letter-spacing: 0.03em; text-transform: none; }
 .plan-select select, .field input, .field textarea, .field select { width: 100%; border: 1px solid var(--line); border-radius: 4px; color: var(--ink); background: #fffdfa; }
 .plan-select select { min-height: 42px; padding: 0 36px 0 13px; }
+.sync-status { position: relative; display: flex; align-items: center; gap: 7px; margin: 18px 0 0; color: var(--muted); font-size: 0.66rem; font-weight: 600; }
+.sync-status span { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); }
+.sync-status.sync-loading span, .sync-status.sync-saving span { background: var(--wax); animation: sync-pulse 1.2s ease-in-out infinite; }
+.sync-status.sync-synced span { background: var(--olive); }
+.sync-status.sync-error { color: var(--wax-dark); }
+.sync-status.sync-error span { background: var(--wax-dark); }
 .plan-actions { display: flex; flex-wrap: wrap; gap: 17px; }
 .plan-action-group { display: grid; gap: 7px; }
 .plan-action-group > span { color: var(--muted); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -2065,6 +2155,7 @@ h3 { font-size: 1.55rem; }
 
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes modal-in { from { opacity: 0; transform: translateY(8px) scale(0.985); } }
+@keyframes sync-pulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
 @keyframes placeholder-in { from { opacity: 0.3; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
 
 @media (max-width: 1540px) {
