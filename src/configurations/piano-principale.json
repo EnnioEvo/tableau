@@ -1,0 +1,250 @@
+{
+  "id": "piano-principale",
+  "name": "Piano principale",
+  "description": "La disposizione completa di 117 invitati e 5 membri dello staff.",
+  "tables": [
+    {
+      "id": "sposi",
+      "number": 1,
+      "name": "Sposi",
+      "capacity": 10,
+      "guests": ["Ennio", "Stellina"]
+    },
+    {
+      "id": "famiglia-ennio",
+      "number": 2,
+      "name": "Famiglia Ennio",
+      "capacity": 10,
+      "guests": [
+        "Luca",
+        "Alessandro",
+        "Papà",
+        "Mamma",
+        "Federico",
+        "Clara",
+        "Nonna",
+        "Zia Matilde"
+      ]
+    },
+    {
+      "id": "famiglia-stellina",
+      "number": 3,
+      "name": "Famiglia Stellina",
+      "capacity": 10,
+      "guests": [
+        "Lia",
+        "Giorgia",
+        "Leonardo",
+        "Antonella",
+        "Andrea",
+        "Nonno eroe di Miriam",
+        "Nonna"
+      ]
+    },
+    {
+      "id": "amici-termini",
+      "number": 4,
+      "name": "Amici Termini",
+      "capacity": 10,
+      "guests": ["Salvo", "Maurizio", "Zita", "Filippo", "Gabriele", "Irene"]
+    },
+    {
+      "id": "ragazzi-ennio-nord",
+      "number": 5,
+      "name": "Ragazzi Ennio e Nord",
+      "capacity": 10,
+      "guests": [
+        "Bernardo",
+        "Federico Bonomi",
+        "Daniele",
+        "Lison",
+        "Didi",
+        "Vittoria",
+        "Elisa",
+        "Alessia",
+        "Gabriele, fidanzato di Alessia"
+      ]
+    },
+    {
+      "id": "ragazzi-stellina",
+      "number": 6,
+      "name": "Ragazzi Stellina",
+      "capacity": 10,
+      "guests": [
+        "Vincenzo",
+        "Aurora",
+        "Antony",
+        "Mario",
+        "Morena",
+        "Norma",
+        "Maria Chiara",
+        "Pamela"
+      ]
+    },
+    {
+      "id": "parenti-adulti-ennio",
+      "number": 7,
+      "name": "Parenti adulti Ennio",
+      "capacity": 10,
+      "guests": [
+        "Zia Valentina",
+        "Zio Antonio",
+        "Zia Maria Concetta",
+        "Antonio",
+        "Letizia"
+      ]
+    },
+    {
+      "id": "guttilla-calvaruso",
+      "number": 8,
+      "name": "Famiglie Guttilla e Calvaruso",
+      "capacity": 10,
+      "provisional": true,
+      "notes": "Accoppiata tra famiglie ancora da confermare.",
+      "guests": [
+        "Massimo",
+        "Mariangela",
+        "Francesco",
+        "Adele",
+        "Alessandro Calvaruso",
+        "Moglie di Alessandro Calvaruso",
+        "Figlio 1 di Alessandro Calvaruso",
+        "Figlio 2 di Alessandro Calvaruso"
+      ]
+    },
+    {
+      "id": "la-placa-borzelliere",
+      "number": 9,
+      "name": "Famiglie La Placa e Borzelliere",
+      "capacity": 10,
+      "provisional": true,
+      "notes": "Accoppiata tra famiglie ancora da confermare.",
+      "guests": [
+        "Damiano",
+        "Graziella",
+        "Lorena",
+        "Marito di Lorena",
+        "Viola",
+        "Federica",
+        "Marito di Federica",
+        "Carmelo",
+        "Moglie di Carmelo",
+        "Giuseppe"
+      ]
+    },
+    {
+      "id": "forgia-micarelli-iacona",
+      "number": 10,
+      "name": "Famiglie Forgia, Micarelli e Iacona",
+      "capacity": 10,
+      "provisional": true,
+      "notes": "Accoppiata tra famiglie ancora da confermare.",
+      "guests": [
+        "Filippo Forgia",
+        "Tilde",
+        "Totò Forgia",
+        "Elisa Forgia",
+        "Annamaria Micarelli",
+        "Micarelli",
+        "Vito Iacona",
+        "Mariella Iacona"
+      ]
+    },
+    {
+      "id": "aglieri-bartolo-vitale-patrizia",
+      "number": 11,
+      "name": "Aglieri, Bartolo, Vitale e Patrizia",
+      "capacity": 10,
+      "provisional": true,
+      "notes": "Accoppiata provvisoria; alcuni nomi sono ancora segnaposto.",
+      "guests": [
+        "Aglieri Rinella Vincenza 1",
+        "Aglieri Rinella Vincenza 2",
+        "Aglieri Rinella Vincenza 3",
+        "Bartolo 1",
+        "Bartolo 2",
+        "Vitale Antonio 1",
+        "Vitale Antonio 2",
+        "Vitale Antonio 3",
+        "Vitale Antonio 4",
+        "Patrizia Virruso Pappalardo"
+      ]
+    },
+    {
+      "id": "katia-valeria",
+      "number": 12,
+      "name": "Famiglie Katia e Valeria",
+      "capacity": 10,
+      "guests": [
+        "Zia Katia",
+        "Zio Gianni",
+        "Gabriele",
+        "Suocero di Katia",
+        "Zia Valeria",
+        "Zio Nuccio",
+        "Suocera di Valeria",
+        "Cognata di Valeria",
+        "Figlia della cognata di Valeria"
+      ]
+    },
+    {
+      "id": "famiglia-concetta",
+      "number": 13,
+      "name": "Famiglia Concetta",
+      "capacity": 10,
+      "guests": [
+        "Zia Concetta",
+        "Piero",
+        "Moglie di Piero",
+        "Figlio 1 di Piero",
+        "Figlio 2 di Piero",
+        "Figlio 3 di Piero",
+        "Giovanna",
+        "Marito di Giovanna",
+        "Figlio 1 di Giovanna",
+        "Figlio 2 di Giovanna"
+      ]
+    },
+    {
+      "id": "graziella-giovanni-angelo",
+      "number": 14,
+      "name": "Famiglie Graziella, Giovanni e Angelo",
+      "capacity": 10,
+      "guests": [
+        "Zia Graziella",
+        "Zio Franco",
+        "Rosy",
+        "Salvo",
+        "Mirella",
+        "Ezio",
+        "Zio Giovanni",
+        "Zia Angela",
+        "Angelo"
+      ]
+    },
+    {
+      "id": "riccardo-zio-giovanni",
+      "number": 15,
+      "name": "Famiglie Riccardo e Zio Giovanni",
+      "capacity": 10,
+      "guests": [
+        "Riccardo",
+        "Nancy",
+        "Giovanni",
+        "Andrea",
+        "Zio Giovanni",
+        "Marisa",
+        "Figlio 1",
+        "Figlio 2"
+      ]
+    },
+    {
+      "id": "staff",
+      "number": 16,
+      "name": "Staff",
+      "capacity": 10,
+      "category": "staff",
+      "guests": ["Fotografo 1", "Fotografo 2", "Band 1", "Band 2", "Band 3"]
+    }
+  ]
+}
