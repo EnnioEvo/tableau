@@ -1348,10 +1348,10 @@ function Stats({ stats }) {
 
 function getSyncStatusLabel(syncStatus) {
   return {
-    loading: "Connessione a Supabase…",
-    saving: "Salvataggio su Supabase…",
-    synced: "Salvato su Supabase",
-    error: "Supabase non raggiungibile · dati locali",
+    loading: "Connessione in corso…",
+    saving: "Salvataggio in corso…",
+    synced: "Salvato",
+    error: "Sincronizzazione non raggiungibile · dati locali",
     local: "Salvataggio locale",
   }[syncStatus];
 }
@@ -2009,11 +2009,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .wedding-date, .eyebrow { margin: 0 0 7px; color: var(--olive); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
 h1, h2, h3 { margin: 0; font-family: "Marcellus", serif; font-weight: 400; color: var(--olive-dark); }
 h1 { font-size: clamp(2.15rem, 5vw, 4.55rem); line-height: 0.99; letter-spacing: -0.035em; }
-h1 span { color: var(--wax); }
+h1 span { display: block; color: var(--wax); }
 h2 { font-size: clamp(1.7rem, 3vw, 2.25rem); }
 h3 { font-size: 1.55rem; }
 .subtitle { margin: 14px 0 0; color: var(--muted); font-size: 0.92rem; }
-.plan-toolbar { position: relative; display: flex; align-items: flex-start; gap: 18px; margin-top: 34px; }
+.plan-toolbar { position: relative; display: flex; align-items: flex-start; gap: 18px; min-width: 0; margin-top: 34px; }
 .plan-select { display: grid; gap: 7px; min-width: min(100%, 270px); }
 .plan-select > span, .field > span { color: var(--muted); font-size: 0.69rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .plan-select > span { display: flex; justify-content: space-between; gap: 14px; }
@@ -2026,8 +2026,8 @@ h3 { font-size: 1.55rem; }
 .sync-status.sync-synced span { background: var(--olive); }
 .sync-status.sync-error { color: var(--wax-dark); }
 .sync-status.sync-error span { background: var(--wax-dark); }
-.plan-actions { display: flex; flex-wrap: wrap; gap: 17px; }
-.plan-action-group { display: grid; gap: 7px; }
+.plan-actions { display: flex; flex-wrap: wrap; gap: 17px; min-width: 0; }
+.plan-action-group { display: grid; gap: 7px; min-width: 0; }
 .plan-action-group > span { color: var(--muted); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 .plan-action-group > div { display: flex; flex-wrap: wrap; gap: 8px; }
 .archive-actions { padding-left: 17px; border-left: 1px solid var(--line); }
@@ -2041,7 +2041,7 @@ h3 { font-size: 1.55rem; }
 .button.ghost-danger { color: var(--wax-dark); border-color: rgba(159, 79, 71, 0.25); background: transparent; }
 .button.danger { color: white; background: var(--wax); }
 .full-width { width: 100%; }
-.stats { position: absolute; right: clamp(24px, 5vw, 72px); bottom: 28px; display: grid; grid-template-columns: repeat(5, minmax(76px, auto)); margin: 0; border: 1px solid var(--line); background: rgba(251, 248, 242, 0.86); backdrop-filter: blur(8px); }
+.stats { position: relative; display: grid; grid-template-columns: repeat(5, minmax(76px, auto)); width: fit-content; margin: 28px 0 0; border: 1px solid var(--line); background: rgba(251, 248, 242, 0.86); backdrop-filter: blur(8px); }
 .stats > div { display: flex; flex-direction: column-reverse; justify-content: center; min-height: 67px; padding: 10px 18px; border-left: 1px solid var(--line); }
 .stats > div:first-child { border-left: 0; }
 .stats dt { margin-top: 4px; color: var(--muted); font-size: 0.59rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -2159,8 +2159,15 @@ h3 { font-size: 1.55rem; }
 @keyframes placeholder-in { from { opacity: 0.3; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
 
 @media (max-width: 1540px) {
-  .stats { position: relative; right: auto; bottom: auto; width: fit-content; margin: 28px 0 0; }
   .plan-toolbar { margin-top: 28px; }
+}
+
+@media (min-width: 1541px) {
+  .page-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: clamp(24px, 4vw, 72px); }
+  .brand-block { grid-column: 1 / -1; }
+  .plan-toolbar { grid-column: 1; }
+  .sync-status { grid-column: 1; }
+  .stats { grid-column: 2; grid-row: 2 / span 2; align-self: end; margin: 34px 0 0; }
 }
 
 @media (max-width: 760px) {
